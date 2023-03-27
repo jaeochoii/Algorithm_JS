@@ -1,7 +1,5 @@
 function solution(n) {
-    let arr = [...String(n)];
-    arr.sort((a,b) => (b-a));
-    let str = arr.join();
-    let answer = arr.join("");
-    return Number(answer);
+    let str = n + "";
+    let newArr = str.split("").sort().reverse().join("");
+    return +newArr;
 }
