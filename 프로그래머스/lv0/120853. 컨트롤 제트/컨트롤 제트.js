@@ -1,7 +1,10 @@
 function solution(s) {
-    s = s.split(" ");
-    while(s.includes('Z')){
-        s.splice(s.indexOf('Z')-1, 2);
-    }
-    return s.reduce((a,b) => a + Number(b), 0);
+    let stack = [];
+    
+    s.split(" ").forEach((target) => {
+        if(target === 'Z') stack.pop();
+        else stack.push(target);
+    })
+    
+    return stack.reduce((a,b) => a + Number(b), 0);
 }
