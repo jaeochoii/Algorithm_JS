@@ -2,8 +2,8 @@ const fs = require('fs');
 const  input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 
 const XY = input.shift().split(' ');
-const X = Number(XY.shift());
-const Y = Number(XY.shift());
+const X = Number(XY[0]);
+const Y = Number(XY[1]);
 const answer = [];
 
 const whiteFirst = [
@@ -52,8 +52,8 @@ function paintBlackFirst(x, y) {
     return count;
 }
 
-for(let i = 0; i+7 < X; i += 1){
-    for (let j = 0; j+7 < Y; j += 1){
+for(let i = 0; i < X-7; i += 1){
+    for (let j = 0; j < Y-7; j += 1){
         answer.push(paintWhiteFirst(j, i));
         answer.push(paintBlackFirst(j, i));
     }
