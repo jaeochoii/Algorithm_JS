@@ -8,7 +8,7 @@ function isPrime(endNum) {
     let numberArr = Array(endNum + 1).fill(true).fill(false, 0, 2);
     let answer = [];
 
-    for(let i = 2; i <= endNum; i += 1) {
+    for(let i = 2; i * i <= endNum; i += 1) {
         if(numberArr[i]) {
             for(let j = i * 2; j <= endNum; j += i) {
                 numberArr[j] = false;
