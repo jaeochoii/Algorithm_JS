@@ -45,13 +45,13 @@ function BellmanFord(start, n, path, dist) {
         for(let j = 0; j < path.length; j += 1) {
             const [from, to, weight] = path[j];
 
-            if(dist[from] !== Infinity && dist[from] + weight < dist[to]) {
+            if(dist[from] + weight < dist[to]) {
                 dist[to] = dist[from] + weight;
                 updated = true;
             }
         }
 
         if(!updated) return false;
-        if(updated && i == n) return true;
+        if(updated && i === n) return true;
     }
 }
