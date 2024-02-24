@@ -1,56 +1,48 @@
-const fs = require('fs');
-const input = fs.readFileSync("./dev/stdin").toString().trim().split("\n").map(v=>v.split(' '));
+let fs = require('fs');
+let input = fs.readFileSync('/dev/stdin').toString().trimEnd().split('\n');
 
-const N = +input[0][0];
-const B = BigInt(input[0][1])
-const mtrx = input.splice(1).map(v=>v.map(x=>+x%1000));
+const [N, B] = input.shift().split(' ').map(Number);
+let originMatrix = [];
+input.forEach((value) => originMatrix.push(value.split(' ').map(Number)));
 
-const answer = powMtrx(mtrx,B).map(v=>v.join(' ')).join('\n')
-
-console.log(answer)
-
-
-function powMtrx(arr,k){
-  if(k==BigInt(1)) return arr
-  const temp = powMtrx(arr,k/BigInt(2));
-  if(k%BigInt(2)==BigInt(0)){
-    return multiMtrx(temp,temp)
-  }else{
-    return multiMtrx(multiMtrx(temp,temp),arr)
-  }
+for(let i = 0; i < N; i += 1) {
+    for(let j = 0; j < N; j += 1) {
+        originMatrix[i][j] = originMatrix[i][j] % 1000;
+    }
 }
 
+// 행렬의 곱셈 기능 함수
+function Matrix(array, origin) {
+    let matrix = Array.from({length: N}, () => []);
 
+    for(let i = 0; i < N; i += 1) {
 
+        for(let j = 0; j < N; j += 1) {
+            let multiple = 0;
 
-function multiMtrx(A,B){
-  const C = changeMtrx(B)
-  const answer = [];
-  for(let i = 0; i<N; i++){
-    answer.push([])
-    const X = A[i];
-    for(let j = 0; j<N; j++){
-      let sum = 0;
-      const Y = C[j]
-      for(let k = 0; k<N; k++){
-        sum+=(X[k]*Y[k]);
-      }
-      answer[answer.length-1].push(sum%1000)
+            for(let k = 0; k < N; k += 1) {
+                multiple += (array[i][k] * origin[k][j]) % 1000;
+            }
+
+            matrix[i].push(multiple % 1000);
+        }
     }
-  }
-  return answer
+    return matrix;
 }
 
+function Square(matrix, times) {
+    if(times === 1) return matrix;
+
+    let temp = Square(matrix, Math.floor(times / 2));
+
+    if(times % 2 === 0) return Matrix(temp, temp);
+
+    else return Matrix(Matrix(temp, temp), matrix);
+}
+
+let result = Square(originMatrix, B);
 
 
-
-function changeMtrx(arr){
-  const  subMtrx = [];
-  for(let i = 0; i<arr.length; i++){
-    subMtrx.push([]);
-    for(let j = 0; j<arr.length; j++){
-      subMtrx[subMtrx.length-1].push(arr[j][i])
-    }
-  }
-  return subMtrx
+for(let i = 0; i < result.length; i += 1) {
+    console.log(result[i].join(' '));
 }
